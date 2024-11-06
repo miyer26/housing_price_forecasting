@@ -72,7 +72,7 @@ class OutlierDetector:
 
     def remove_outliers(
         self, column: str, method: str = "iqr", threshold: float = 1.5
-    ) -> None:
+    ) -> pd.DataFrame:
         """
         Remove outliers from the dataset.
 
@@ -95,3 +95,5 @@ class OutlierDetector:
         elif method == "robust_cov":
             outliers = self.detect_robust_covariance_outliers([column], threshold)
             self.data = self.data[~self.data.index.isin(outliers.index)]
+
+        return self.data
