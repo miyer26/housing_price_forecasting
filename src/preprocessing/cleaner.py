@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import List, Dict
+from typing import List, Dict, Optional
 from utils.logger import get_logger
 
 
@@ -18,13 +18,17 @@ class DataCleaner:
         self.logger.info("Initializing DataCleaner")
         self.logger.info(f"Initial data shape: {self.data.shape}")
 
-    def drop_na_columns(self, threshold: float = 50.0) -> pd.DataFrame:
+    def drop_na_columns(self, threshold: Optional[float] = None) -> pd.DataFrame:
         """
         Drop columns with NA values above threshold percentage.
 
         Args:
-            threshold (float): Percentage threshold for dropping columns
+            threshold (float, optional): Percentage threshold for dropping columns.
+                                       If None, no columns are dropped.
         """
+        if threshold is None:
+            return self.data
+
         self.logger.info(f"Dropping columns with >{threshold}% missing values")
         missing_percentages = self.data.isna().mean() * 100
         cols_to_drop = missing_percentages[
