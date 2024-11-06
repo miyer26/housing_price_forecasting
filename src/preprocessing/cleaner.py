@@ -18,7 +18,7 @@ class DataCleaner:
         self.logger.info("Initializing DataCleaner")
         self.logger.info(f"Initial data shape: {self.data.shape}")
 
-    def drop_na_columns(self, threshold: float = 50.0) -> None:
+    def drop_na_columns(self, threshold: float = 50.0) -> pd.DataFrame:
         """
         Drop columns with NA values above threshold percentage.
 
@@ -37,7 +37,9 @@ class DataCleaner:
         else:
             self.logger.info("No columns met the threshold for dropping")
 
-    def drop_columns(self, columns: List[str]) -> None:
+        return self.data
+
+    def drop_columns(self, columns: List[str]) -> pd.DataFrame:
         """
         Drop specified columns from the dataframe.
 
@@ -49,7 +51,9 @@ class DataCleaner:
             self.data.drop(columns=existing_cols, inplace=True)
             print(f"Dropped columns: {existing_cols}")
 
-    def impute_values(self, columns_dict: Dict[str, str]) -> None:
+        return self.data
+
+    def impute_values(self, columns_dict: Dict[str, str]) -> pd.DataFrame:
         """
         Impute missing values in specified columns.
 
@@ -73,6 +77,8 @@ class DataCleaner:
 
             self.data[column].fillna(value, inplace=True)
             print(f"Imputed {column} using {strategy} strategy")
+
+        return self.data
 
     def get_cleaned_data(self):
         """
